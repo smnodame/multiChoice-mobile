@@ -22,7 +22,7 @@ export class StartForm extends React.Component {
         <Container>
         <Header>
             <Left>
-                <Button transparent onPress={this.onBack} small>
+                <Button transparent onPress={this.onBack} style={{ width: 40 }}>
                     <Icon name='arrow-back' />
                 </Button>
             </Left>
