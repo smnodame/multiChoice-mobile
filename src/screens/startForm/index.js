@@ -40,7 +40,9 @@ export class StartForm extends React.Component {
     }
 
     redirectToResultPage = () => {
-        this.props.navigation.navigate('ResultLists')
+        this.props.navigation.navigate('ResultLists', {
+            example_slug: this.props.navigation.state.params.slug
+        })
     }
 
   render() {

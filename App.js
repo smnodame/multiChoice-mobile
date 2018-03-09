@@ -13,6 +13,6 @@ export default StackNavigator({
     CameraScanner: { screen: CameraScanner }
 },
 {
-    initialRouteName: "CameraScanner",
+    initialRouteName: "ExampleLists",
     headerMode: "none"
 })

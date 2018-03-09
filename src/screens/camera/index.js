@@ -1,8 +1,10 @@
 import React from 'react'
-import { View, TouchableOpacity, Dimensions } from 'react-native'
+import { View, TouchableOpacity, Dimensions, Alert } from 'react-native'
 import { Camera, Permissions } from 'expo'
 import { Container, Header, Content, List, ListItem, Text, Thumbnail, Body, Icon, Right, Left, Button, Title } from 'native-base'
 import { NavigationActions } from 'react-navigation'
+import _ from 'lodash'
+import { sendPhoto } from '../../api'
 
 const width = Dimensions.get("window").width
 
@@ -19,8 +21,53 @@ export class CameraScanner extends React.Component {
 
   snap = async () => {
       if (this.camera) {
-          let photo = await this.camera.takePictureAsync()
-          
+            let photo = await this.camera.takePictureAsync()
+            const resSendPhoto = await sendPhoto(this.props.navigation.state.params.user_slug, this.props.navigation.state.params.example_slug, {
+                uri: photo.uri
+            })
+            console.log(resSendPhoto)
+            if(_.get(resSendPhoto, 'status', false)) {
+                Alert.alert(
+                    'Error',
+                    resSendPhoto.data,
+                    [
+                        {text: 'ยกเลิก', onPress: () => {
+
+                        }},
+                        {text: 'ลองใหม่', onPress: () => {
+                            // this.props.navigation.navigate('CameraScanner', {
+                            //     user_slug: student.slug,
+                            //     example_slug: this.props.navigation.state.params.example_slug
+                            // })
+                        }},
+                    ],
+                    { cancelable: false }
+                )
+            } else {
+                Alert.alert(
+                    'ผลลัพธ์',
+                    `${resSendPhoto.point} คะแนน`,
+                    [
+                        {text: 'ลองใหม่', onPress: () => {
+
+                        }},
+                        {text: 'คนต่อไป', onPress: () => {
+                            // this.props.navigation.navigate('CameraScanner', {
+                            //     user_slug: student.slug,
+                            //     example_slug: this.props.navigation.state.params.example_slug
+                            // })
+                        }},
+                        {text: 'ผลลัพธ์รวม', onPress: () => {
+                            // this.props.navigation.navigate('CameraScanner', {
+                            //     user_slug: student.slug,
+                            //     example_slug: this.props.navigation.state.params.example_slug
+                            // })
+                        }},
+                    ],
+                    { cancelable: false }
+                )
+
+            }
       }
   }
 

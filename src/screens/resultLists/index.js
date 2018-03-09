@@ -14,7 +14,9 @@ export class ResultLists extends React.Component {
     }
 
     onOpenBarcodeScanner = () => {
-        this.props.navigation.navigate('BarcodeScanner')
+        this.props.navigation.navigate('BarcodeScanner', {
+            example_slug: this.props.navigation.state.params.example_slug
+        })
     }
 
   render() {
