@@ -11,20 +11,24 @@ import {
 import { Container, Header, Content, List, ListItem, Text, Thumbnail, Body, Icon, Right, Left, Button, Title } from 'native-base'
 import Drawer from 'react-native-drawer'
 
+import { fetchExampleLists } from '../../api'
+
 const deviceHeight = Dimensions.get("window").height
 const deviceWidth = Dimensions.get("window").width
 
 export class ExampleLists extends React.Component {
 
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
-    		isReady: false,
-    		error: "",
-    		loading: false,
-    		username: "",
-    		password: ""
+            example: []
         }
+
+        fetchExampleLists().then((res) => {
+            this.setState({
+                example: res.data
+            })
+        })
     }
 
     onLogin = async () => {
@@ -35,10 +39,31 @@ export class ExampleLists extends React.Component {
         this._drawer.open()
     }
 
-    redirectToStartForm = () => {
-        this.props.navigation.navigate('StartForm')
+    redirectToStartForm = (slug) => {
+        this.props.navigation.navigate('StartForm', {
+            slug: slug
+        })
     }
 
+    onOpenBarcodeScanner = () => {
+        this.props.navigation.navigate('BarcodeScanner')
+    }
+
+    renderExampleLists = () => {
+        return this.state.example.map((example) => {
+            return (
+                <ListItem key={example.slug} onPress={() => this.redirectToStartForm(example.slug)}>
+                    <Body>
+                        <Text>{ example.name }</Text>
+                        <Text note>{ example.subject }</Text>
+                    </Body>
+                    <Right>
+                        <Icon name="arrow-forward" />
+                    </Right>
+                </ListItem>
+            )
+        })
+    }
   render() {
     return (
         <Drawer
@@ -86,40 +111,16 @@ export class ExampleLists extends React.Component {
                     <Title>Example Lists</Title>
                 </Body>
                 <Right>
-                    <Button transparent>
+                    <Button transparent onPress={this.onOpenBarcodeScanner}>
                         <Icon name="barcode" />
                     </Button>
                 </Right>
             </Header>
             <Content style={{ backgroundColor: 'white' }}>
             <List>
-                <ListItem onPress={this.redirectToStartForm}>
-                    <Body>
-                        <Text>ตรรกศาสตร์ 1</Text>
-                        <Text note>คณิตศาสตร์</Text>
-                    </Body>
-                    <Right>
-                        <Icon name="arrow-forward" />
-                    </Right>
-                </ListItem>
-                <ListItem onPress={this.redirectToStartForm}>
-                    <Body>
-                        <Text>ตรรกศาสตร์ 2</Text>
-                        <Text note>คณิตศาสตร์</Text>
-                    </Body>
-                    <Right>
-                        <Icon name="arrow-forward" />
-                    </Right>
-                </ListItem>
-                <ListItem onPress={this.redirectToStartForm}>
-                    <Body>
-                        <Text>GAT 1 ทดสอบ</Text>
-                        <Text note>GAT</Text>
-                    </Body>
-                    <Right>
-                        <Icon name="arrow-forward" />
-                    </Right>
-                </ListItem>
+                {
+                    this.renderExampleLists()
+                }
             </List>
             </Content>
       </Container>

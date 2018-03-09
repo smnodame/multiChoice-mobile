@@ -3,10 +3,36 @@ import { StyleSheet, View } from 'react-native'
 import { Container, Header, Content, List, ListItem, Text, Thumbnail, Body, Icon, Right, Left, Button, Title, Card, CardItem, } from 'native-base'
 import { NavigationActions } from 'react-navigation'
 
+import { fetchDetail } from '../../api'
+
 export class StartForm extends React.Component {
 
     constructor(props) {
         super(props)
+        this.state = {
+            date: '',
+            description: '',
+            name: '',
+            question_amount: '',
+            slug : '',
+            subject: '',
+            time: '',
+        }
+    }
+
+    componentWillMount = () => {
+        const slug = this.props.navigation.state.params.slug
+        fetchDetail(slug).then((res) => {
+            this.setState({
+                date: res.data.date,
+                description: res.data.description,
+                name: res.data.name,
+                question_amount: res.data.question_amount,
+                slug : res.data.slug,
+                subject: res.data.subject,
+                time: res.data.time,
+            })
+        })
     }
 
     onBack = () => {
@@ -38,7 +64,7 @@ export class StartForm extends React.Component {
         <Content>
           <Card>
             <CardItem header>
-              <Text>ตรรกศาสตร์ 1</Text>
+              <Text>{ this.state.name || '' }</Text>
             </CardItem>
             <CardItem>
               <Body>
@@ -47,7 +73,7 @@ export class StartForm extends React.Component {
                       รายละเอียด
                     </Text>
                     <Text note>
-                      80 percent
+                      { this.state.description }
                     </Text>
                 </View>
                 <View style={{ flex:1, flexDirection: 'row', marginBottom: 12 }}>
@@ -55,7 +81,7 @@ export class StartForm extends React.Component {
                       เวลาในการทำข้อสอบ
                     </Text>
                     <Text note>
-                      60 นาที
+                      { this.state.time }
                     </Text>
                 </View>
                 <View style={{ flex:1, flexDirection: 'row', marginBottom: 12 }}>
@@ -63,15 +89,7 @@ export class StartForm extends React.Component {
                       จำนวนคำถาม
                     </Text>
                     <Text note>
-                      10 ข้อ
-                    </Text>
-                </View>
-                <View style={{ flex:1, flexDirection: 'row', marginBottom: 12 }}>
-                    <Text style={{ width: '40%' }} note>
-                      จำนวนคำถาม
-                    </Text>
-                    <Text note>
-                      10 ข้อ
+                      { this.state.question_amount }
                     </Text>
                 </View>
                 <View style={{ flex:1, flexDirection: 'row', marginBottom: 12 }}>
@@ -79,7 +97,7 @@ export class StartForm extends React.Component {
                       วิชา
                     </Text>
                     <Text note>
-                      คณิตศาสตร์
+                      { this.state.subject }
                     </Text>
                 </View>
                 <View style={{ flex:1, flexDirection: 'row', marginBottom: 12 }}>
@@ -87,7 +105,7 @@ export class StartForm extends React.Component {
                       วันที่สอบ
                     </Text>
                     <Text note>
-                      03/02/2018
+                      { this.state.date }
                     </Text>
                 </View>
               </Body>

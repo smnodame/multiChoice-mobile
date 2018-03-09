@@ -13,6 +13,10 @@ export class ResultLists extends React.Component {
         this.props.navigation.dispatch(NavigationActions.back())
     }
 
+    onOpenBarcodeScanner = () => {
+        this.props.navigation.navigate('BarcodeScanner')
+    }
+
   render() {
     return (
         <Container>
@@ -26,7 +30,7 @@ export class ResultLists extends React.Component {
                     <Title>Result Lists</Title>
                 </Body>
                 <Right>
-                    <Button transparent>
+                    <Button transparent onPress={this.onOpenBarcodeScanner}>
                         <Icon name="barcode" />
                     </Button>
                 </Right>
