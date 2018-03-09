@@ -1,12 +1,13 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import { BarCodeScanner, Permissions } from 'expo'
+import { StyleSheet, View, Alert } from 'react-native'
+import { BarCodeScanner, Permissions,  } from 'expo'
 import { Container, Header, Content, List, ListItem, Text, Thumbnail, Body, Icon, Right, Left, Button, Title } from 'native-base'
 import { NavigationActions } from 'react-navigation'
 
 export class BarcodeScanner extends React.Component {
   state = {
     hasCameraPermission: null,
+    round: 0
   }
 
   async componentWillMount() {
@@ -35,7 +36,7 @@ export class BarcodeScanner extends React.Component {
                     </Button>
                 </Left>
                     <Body>
-                        <Title>Scan Barcode</Title>
+                        <Title>แสกน Barcode นักเรียน</Title>
                     </Body>
                     <Right />
             </Header>
@@ -51,6 +52,29 @@ export class BarcodeScanner extends React.Component {
   }
 
   _handleBarCodeRead = ({ type, data }) => {
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`)
+    if(this.state.round == 0) {
+        console.log(type)
+        console.log(data)
+        const student = JSON.parse(data)
+
+        Alert.alert(
+            student.slug,
+            student.name,
+            [
+                {text: 'Cancel', onPress: () => {
+                    this.setState({
+                        round: 0
+                    })
+                }},
+                {text: 'OK', onPress: () => {
+
+                }},
+            ],
+            { cancelable: false }
+        )
+    }
+    this.setState({
+        round: 1
+    })
   }
 }

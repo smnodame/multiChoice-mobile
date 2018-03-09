@@ -91,7 +91,7 @@ export class ExampleLists extends React.Component {
     								<Left>
     									<Icon active name='log-out' style={{ color: "#777", fontSize: 26, width: 30 }} />
     									<Text style={styles.text}>
-    										Log Out
+    										ออกจากระบบ
     									</Text>
     								</Left>
     							</ListItem>
@@ -108,7 +108,7 @@ export class ExampleLists extends React.Component {
                     </Button>
                 </Left>
                 <Body>
-                    <Title>Example Lists</Title>
+                    <Title>ข้อสอบทั้งหมด</Title>
                 </Body>
                 <Right>
                     <Button transparent onPress={this.onOpenBarcodeScanner}>

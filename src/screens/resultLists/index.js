@@ -27,7 +27,7 @@ export class ResultLists extends React.Component {
                     </Button>
                 </Left>
                 <Body>
-                    <Title>Result Lists</Title>
+                    <Title>สรุปคะแนนนักเรียน</Title>
                 </Body>
                 <Right>
                     <Button transparent onPress={this.onOpenBarcodeScanner}>

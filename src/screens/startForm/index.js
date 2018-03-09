@@ -53,7 +53,7 @@ export class StartForm extends React.Component {
                 </Button>
             </Left>
             <Body>
-                <Title>Detail</Title>
+                <Title>รายละเอียดข้อสอบ</Title>
             </Body>
             <Right>
                 <Button transparent onPress={this.redirectToResultPage}>
