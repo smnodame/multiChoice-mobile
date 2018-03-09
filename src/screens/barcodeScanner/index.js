@@ -67,7 +67,7 @@ export class BarcodeScanner extends React.Component {
                     })
                 }},
                 {text: 'OK', onPress: () => {
-
+                    this.props.navigation.navigate('CameraScanner')
                 }},
             ],
             { cancelable: false }

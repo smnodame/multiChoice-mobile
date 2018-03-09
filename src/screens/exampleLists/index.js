@@ -111,9 +111,6 @@ export class ExampleLists extends React.Component {
                     <Title>ข้อสอบทั้งหมด</Title>
                 </Body>
                 <Right>
-                    <Button transparent onPress={this.onOpenBarcodeScanner}>
-                        <Icon name="barcode" />
-                    </Button>
                 </Right>
             </Header>
             <Content style={{ backgroundColor: 'white' }}>
