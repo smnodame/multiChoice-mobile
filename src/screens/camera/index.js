@@ -28,17 +28,14 @@ export class CameraScanner extends React.Component {
             console.log(resSendPhoto)
             if(_.get(resSendPhoto, 'status', false)) {
                 Alert.alert(
-                    'Error',
-                    resSendPhoto.data,
+                    'เกิดข้อผิดพลาด',
+                    'อาจมีการ snapshot รูปไม่ถูกต้อง',
                     [
                         {text: 'ยกเลิก', onPress: () => {
-
+                            this.props.navigation.dispatch(NavigationActions.back())
                         }},
                         {text: 'ลองใหม่', onPress: () => {
-                            // this.props.navigation.navigate('CameraScanner', {
-                            //     user_slug: student.slug,
-                            //     example_slug: this.props.navigation.state.params.example_slug
-                            // })
+
                         }},
                     ],
                     { cancelable: false }
@@ -52,16 +49,10 @@ export class CameraScanner extends React.Component {
 
                         }},
                         {text: 'คนต่อไป', onPress: () => {
-                            // this.props.navigation.navigate('CameraScanner', {
-                            //     user_slug: student.slug,
-                            //     example_slug: this.props.navigation.state.params.example_slug
-                            // })
+                            this.props.navigation.dispatch(NavigationActions.back())
                         }},
                         {text: 'ผลลัพธ์รวม', onPress: () => {
-                            // this.props.navigation.navigate('CameraScanner', {
-                            //     user_slug: student.slug,
-                            //     example_slug: this.props.navigation.state.params.example_slug
-                            // })
+                            this.props.navigation.pop(2)
                         }},
                     ],
                     { cancelable: false }

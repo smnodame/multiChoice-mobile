@@ -67,10 +67,15 @@ export class BarcodeScanner extends React.Component {
                     })
                 }},
                 {text: 'OK', onPress: () => {
-                    this.props.navigation.navigate('CameraScanner', {
-                        user_slug: student.slug,
-                        example_slug: this.props.navigation.state.params.example_slug
+                    this.setState({
+                        round: 0
+                    }, () => {
+                        this.props.navigation.navigate('CameraScanner', {
+                            user_slug: student.slug,
+                            example_slug: this.props.navigation.state.params.example_slug
+                        })
                     })
+
                 }},
             ],
             { cancelable: false }
