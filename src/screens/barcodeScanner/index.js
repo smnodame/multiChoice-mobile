@@ -61,12 +61,15 @@ export class BarcodeScanner extends React.Component {
             student.slug,
             student.name,
             [
-                {text: 'Cancel', onPress: () => {
+                {text: 'ยกเลิก', onPress: () => {
+                    this.props.navigation.dispatch(NavigationActions.back())
+                }},
+                {text: 'ลองใหม่', onPress: () => {
                     this.setState({
                         round: 0
                     })
                 }},
-                {text: 'OK', onPress: () => {
+                {text: 'ตกลง', onPress: () => {
                     this.setState({
                         round: 0
                     }, () => {

@@ -8,6 +8,10 @@ export const fetchDetail = (slug) => {
     return axios.get(`http://192.168.1.39:8000/question/?slug=${slug}`)
 }
 
+export const getPoint = (slug) => {
+    return axios.get(`http://192.168.1.39:8000/point?slug=${slug}`)
+}
+
 export const sendPhoto = (user_slug, example_slug, file) => {
     const bodyFormData = new FormData()
     bodyFormData.append('user_slug', user_slug)

@@ -1,12 +1,18 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, BackHandler } from 'react-native'
 import { Container, Header, Content, List, ListItem, Text, Thumbnail, Body, Icon, Right, Left, Button, Title } from 'native-base'
 import { NavigationActions } from 'react-navigation'
+
+import { getPoint } from '../../api'
 
 export class ResultLists extends React.Component {
 
     constructor(props) {
         super(props)
+
+        this.state = {
+            students: []
+        }
     }
 
     onBack = () => {
@@ -16,6 +22,34 @@ export class ResultLists extends React.Component {
     onOpenBarcodeScanner = () => {
         this.props.navigation.navigate('BarcodeScanner', {
             example_slug: this.props.navigation.state.params.example_slug
+        })
+    }
+
+    componentWillMount = () => {
+        const example_slug = this.props.navigation.state.params.example_slug
+        getPoint(example_slug).then((res) => {
+            this.setState({
+                students: res.data || []
+            })
+        })
+
+        BackHandler.addEventListener('hardwareBackPress', () => {
+            console.log('wwwwwww')
+        })
+    }
+
+    renderItems = () => {
+        return this.state.students.map((student, index) => {
+            return (
+                <ListItem key={index}>
+                    <Body>
+                        <Text>{ student.student.firstname + ' ' + student.student.lastname }</Text>
+                    </Body>
+                    <Right>
+                        <Text note>{ student.point } คะแนน</Text>
+                    </Right>
+                </ListItem>
+            )
         })
     }
 
@@ -39,30 +73,9 @@ export class ResultLists extends React.Component {
             </Header>
             <Content style={{ backgroundColor: 'white' }}>
             <List>
-                <ListItem>
-                    <Body>
-                        <Text>ปกิต สุรินี</Text>
-                    </Body>
-                    <Right>
-                        <Text note>25 คะแนน</Text>
-                    </Right>
-                </ListItem>
-                <ListItem>
-                    <Body>
-                        <Text>ราชวิน รัตกุล</Text>
-                    </Body>
-                    <Right>
-                        <Text note>100 คะแนน</Text>
-                    </Right>
-                </ListItem>
-                <ListItem>
-                    <Body>
-                        <Text>ปวิภา ทองกุล</Text>
-                    </Body>
-                    <Right>
-                        <Text note>10 คะแนน</Text>
-                    </Right>
-                </ListItem>
+                {
+                    this.renderItems()
+                }
             </List>
             </Content>
       </Container>
