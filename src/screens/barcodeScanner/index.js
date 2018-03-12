@@ -70,15 +70,15 @@ export class BarcodeScanner extends React.Component {
                     })
                 }},
                 {text: 'ตกลง', onPress: () => {
-                    this.setState({
-                        round: 0
-                    }, () => {
-                        this.props.navigation.navigate('CameraScanner', {
-                            user_slug: student.slug,
-                            example_slug: this.props.navigation.state.params.example_slug
-                        })
+                    this.props.navigation.navigate('CameraScanner', {
+                        user_slug: student.slug,
+                        example_slug: this.props.navigation.state.params.example_slug,
+                        resetRound: () => {
+                            this.setState({
+                                round: 0
+                            })
+                        }
                     })
-
                 }},
             ],
             { cancelable: false }

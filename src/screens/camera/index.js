@@ -49,6 +49,7 @@ export class CameraScanner extends React.Component {
 
                         }},
                         {text: 'คนต่อไป', onPress: () => {
+                            this.props.navigation.state.params.resetRound()
                             this.props.navigation.dispatch(NavigationActions.back())
                         }},
                         {text: 'ผลลัพธ์รวม', onPress: () => {
@@ -64,6 +65,7 @@ export class CameraScanner extends React.Component {
 
 
   onBack = () => {
+      this.props.navigation.state.params.resetRound()
       this.props.navigation.dispatch(NavigationActions.back())
   }
 
