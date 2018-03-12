@@ -21,21 +21,24 @@ export class ResultLists extends React.Component {
 
     onOpenBarcodeScanner = () => {
         this.props.navigation.navigate('BarcodeScanner', {
-            example_slug: this.props.navigation.state.params.example_slug
+            example_slug: this.props.navigation.state.params.example_slug,
+            reloadResultLists: () => {
+                this.reloadResultLists()
+            }
         })
     }
 
-    componentWillMount = () => {
+    reloadResultLists = () => {
         const example_slug = this.props.navigation.state.params.example_slug
         getPoint(example_slug).then((res) => {
             this.setState({
                 students: res.data || []
             })
         })
+    }
 
-        BackHandler.addEventListener('hardwareBackPress', () => {
-            console.log('wwwwwww')
-        })
+    componentWillMount = () => {
+        this.reloadResultLists()
     }
 
     renderItems = () => {

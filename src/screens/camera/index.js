@@ -32,6 +32,7 @@ export class CameraScanner extends React.Component {
                     'อาจมีการ snapshot รูปไม่ถูกต้อง',
                     [
                         {text: 'ยกเลิก', onPress: () => {
+                            this.props.navigation.state.params.reloadResultLists()
                             this.props.navigation.dispatch(NavigationActions.back())
                         }},
                         {text: 'ลองใหม่', onPress: () => {
@@ -53,6 +54,7 @@ export class CameraScanner extends React.Component {
                             this.props.navigation.dispatch(NavigationActions.back())
                         }},
                         {text: 'ผลลัพธ์รวม', onPress: () => {
+                            this.props.navigation.state.params.reloadResultLists()
                             this.props.navigation.pop(2)
                         }},
                     ],

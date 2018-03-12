@@ -73,6 +73,7 @@ export class BarcodeScanner extends React.Component {
                     this.props.navigation.navigate('CameraScanner', {
                         user_slug: student.slug,
                         example_slug: this.props.navigation.state.params.example_slug,
+                        reloadResultLists: this.props.navigation.state.params.reloadResultLists,
                         resetRound: () => {
                             this.setState({
                                 round: 0
