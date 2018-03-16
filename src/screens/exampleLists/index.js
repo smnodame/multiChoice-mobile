@@ -64,6 +64,15 @@ export class ExampleLists extends React.Component {
             )
         })
     }
+
+    reload = () => {
+        fetchExampleLists().then((res) => {
+            this.setState({
+                example: res.data
+            })
+        })
+    }
+
   render() {
     return (
         <Drawer
@@ -111,6 +120,9 @@ export class ExampleLists extends React.Component {
                     <Title>ข้อสอบทั้งหมด</Title>
                 </Body>
                 <Right>
+                    <Button transparent onPress={this.reload}>
+                        <Icon name='ios-refresh' />
+                    </Button>
                 </Right>
             </Header>
             <Content style={{ backgroundColor: 'white' }}>

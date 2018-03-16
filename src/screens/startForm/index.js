@@ -28,6 +28,7 @@ export class StartForm extends React.Component {
                 description: res.data.description,
                 name: res.data.name,
                 question_amount: res.data.question_amount,
+                answer_amount: res.data.answer_amount,
                 slug : res.data.slug,
                 subject: res.data.subject,
                 time: res.data.time,
@@ -70,11 +71,19 @@ export class StartForm extends React.Component {
             </CardItem>
             <CardItem>
               <Body>
+              <View style={{ flex:1, flexDirection: 'row', marginBottom: 12 }}>
+                  <Text style={{ width: '40%' }} note>
+                    วิชา
+                  </Text>
+                  <Text style={{ width: '50%' }} note>
+                    { this.state.subject }
+                  </Text>
+              </View>
                 <View style={{ flex:1, flexDirection: 'row', marginBottom: 12 }}>
                     <Text style={{ width: '40%' }} note>
                       รายละเอียด
                     </Text>
-                    <Text note>
+                    <Text style={{ width: '50%' }} note>
                       { this.state.description }
                     </Text>
                 </View>
@@ -82,7 +91,7 @@ export class StartForm extends React.Component {
                     <Text style={{ width: '40%' }} note>
                       เวลาในการทำข้อสอบ
                     </Text>
-                    <Text note>
+                    <Text style={{ width: '50%' }} note>
                       { this.state.time }
                     </Text>
                 </View>
@@ -90,23 +99,23 @@ export class StartForm extends React.Component {
                     <Text style={{ width: '40%' }} note>
                       จำนวนคำถาม
                     </Text>
-                    <Text note>
+                    <Text style={{ width: '50%' }} note>
                       { this.state.question_amount }
                     </Text>
                 </View>
                 <View style={{ flex:1, flexDirection: 'row', marginBottom: 12 }}>
                     <Text style={{ width: '40%' }} note>
-                      วิชา
+                      จำนวนตัวเลือก
                     </Text>
-                    <Text note>
-                      { this.state.subject }
+                    <Text style={{ width: '50%' }} note>
+                      { this.state.answer_amount }
                     </Text>
                 </View>
                 <View style={{ flex:1, flexDirection: 'row', marginBottom: 12 }}>
                     <Text style={{ width: '40%' }} note>
                       วันที่สอบ
                     </Text>
-                    <Text note>
+                    <Text style={{ width: '50%' }} note>
                       { this.state.date }
                     </Text>
                 </View>
