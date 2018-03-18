@@ -103,7 +103,7 @@ export class ExampleLists extends React.Component {
     					<Content bounces={false} style={{ flex: 1, backgroundColor: "#fff", top: -1 }}>
     						<View  style={styles.drawerCover}>
     							{
-                                    // <Image square style={styles.drawerImage} source={  require('./src/assets/logo.png') } />
+                                    <Image square style={styles.drawerImage} source={  require('./logo.png') } />
                                 }
     						</View>
     						<List>
@@ -179,16 +179,12 @@ const styles = StyleSheet.create({
 		width: null,
 		position: "relative",
 		marginBottom: 10,
-		backgroundColor: '#004B85'
+		backgroundColor: '#004B85',
+        flex: 1, alignItems: 'center', justifyContent: 'center'
 	},
 	drawerImage: {
-		position: "absolute",
-		// left: (Platform.OS === 'android') ? 30 : 40,
-		left: Platform.OS === "android" ? deviceWidth / 15 : deviceWidth / 12,
-		// top: (Platform.OS === 'android') ? 45 : 55,
-		top: Platform.OS === "android" ? deviceHeight / 13 : deviceHeight / 12,
-		width: 250,
-		height: 75,
-		resizeMode: "cover"
+		width: 200,
+		height: 70,
+		resizeMode: "contain"
 	}
 });

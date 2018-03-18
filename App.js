@@ -5,6 +5,7 @@ import { StartForm } from './src/screens/startForm'
 import { BarcodeScanner } from './src/screens/barcodeScanner'
 import { CameraScanner } from './src/screens/camera'
 import { Login } from './src/screens/login'
+import { Splash } from './src/screens/splash'
 
 export default StackNavigator({
     ExampleLists: { screen: ExampleLists },
@@ -12,9 +13,10 @@ export default StackNavigator({
     StartForm: { screen: StartForm },
     BarcodeScanner: { screen: BarcodeScanner },
     CameraScanner: { screen: CameraScanner },
-    Login: { screen: Login }
+    Login: { screen: Login },
+    Splash: { screen: Splash }
 },
 {
-    initialRouteName: "Login",
+    initialRouteName: "Splash",
     headerMode: "none"
 })
