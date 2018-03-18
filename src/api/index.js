@@ -1,5 +1,13 @@
 import axios from 'axios'
 
+export const login = (username, password) => {
+    const data = {
+        username,
+        password
+    }
+    return axios.post('http://192.168.1.39:8000/login', data)
+}
+
 export const fetchExampleLists = () => {
     return axios.get('http://192.168.1.39:8000/forms')
 }

@@ -6,10 +6,12 @@ import {
   TouchableOpacity,
   Dimensions,
   Image,
-  Keyboard
+  Keyboard,
+  AsyncStorage
 } from 'react-native'
 import { Container, Header, Content, List, ListItem, Text, Thumbnail, Body, Icon, Right, Left, Button, Title } from 'native-base'
 import Drawer from 'react-native-drawer'
+import { NavigationActions } from 'react-navigation'
 
 import { fetchExampleLists } from '../../api'
 
@@ -31,8 +33,17 @@ export class ExampleLists extends React.Component {
         })
     }
 
-    onLogin = async () => {
-
+    onLogout = async () => {
+        AsyncStorage.removeItem('active')
+        		.then(() => {
+        			const resetAction = NavigationActions.reset({
+        					index: 0,
+        					actions: [
+        						NavigationActions.navigate({ routeName: 'Login'})
+        					]
+        				})
+        				this.props.navigation.dispatch(resetAction)
+        		})
 	}
 
     openControlPanel = () => {
@@ -96,7 +107,7 @@ export class ExampleLists extends React.Component {
                                 }
     						</View>
     						<List>
-    							<ListItem button noBorder>
+    							<ListItem button noBorder onPress={this.onLogout}>
     								<Left>
     									<Icon active name='log-out' style={{ color: "#777", fontSize: 26, width: 30 }} />
     									<Text style={styles.text}>
