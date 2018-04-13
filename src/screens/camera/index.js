@@ -1,20 +1,29 @@
 import React from 'react'
-import { View, TouchableOpacity, Dimensions, Alert } from 'react-native'
+import { View, TouchableOpacity, Dimensions, Alert, Platform, StyleSheet } from 'react-native'
 import { Camera, Permissions } from 'expo'
 import { Container, Header, Content, List, ListItem, Text, Thumbnail, Body, Icon, Right, Left, Button, Title } from 'native-base'
 import { NavigationActions } from 'react-navigation'
 import _ from 'lodash'
 import { sendPhoto } from '../../api'
+import Expo from "expo"
 
 const width = Dimensions.get("window").width
 
 export class CameraScanner extends React.Component {
-  state = {
-    hasCameraPermission: null,
-    type: Camera.Constants.Type.back,
-  }
+    state = {
+        isReady: false,
+        hasCameraPermission: null,
+        type: Camera.Constants.Type.back,
+    }
 
   async componentWillMount() {
+    await Expo.Font.loadAsync({
+      Roboto: require("native-base/Fonts/Roboto.ttf"),
+      Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
+      Ionicons: require("@expo/vector-icons/fonts/Ionicons.ttf")
+    })
+    this.setState({ isReady: true })
+
     const { status } = await Permissions.askAsync(Permissions.CAMERA)
     this.setState({ hasCameraPermission: status === 'granted' })
   }
@@ -80,7 +89,11 @@ export class CameraScanner extends React.Component {
       return <Text>No access to camera</Text>
     } else {
       return (
-      <Container>
+          this.state.isReady?
+          <Container>
+              {
+                   Platform.OS != 'ios'&&<View style={styles.statusBar} />
+              }
           <Header>
               <Left>
                   <Button transparent onPress={this.onBack}>
@@ -103,7 +116,16 @@ export class CameraScanner extends React.Component {
                 </View>
             </View>
         </Container>
+        :
+        <Container />
       )
     }
   }
 }
+
+const styles = StyleSheet.create({
+    statusBar: {
+          backgroundColor: "#000",
+          height: Expo.Constants.statusBarHeight,
+      }
+})

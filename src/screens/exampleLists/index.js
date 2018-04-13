@@ -14,7 +14,7 @@ import Drawer from 'react-native-drawer'
 import { NavigationActions } from 'react-navigation'
 
 import { fetchExampleLists } from '../../api'
-
+import Expo from "expo"
 const deviceHeight = Dimensions.get("window").height
 const deviceWidth = Dimensions.get("window").width
 
@@ -23,6 +23,7 @@ export class ExampleLists extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            isReady: false,
             example: []
         }
 
@@ -84,8 +85,18 @@ export class ExampleLists extends React.Component {
         })
     }
 
+    async componentWillMount() {
+       await Expo.Font.loadAsync({
+           Roboto: require("native-base/Fonts/Roboto.ttf"),
+           Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
+           Ionicons: require("@expo/vector-icons/fonts/Ionicons.ttf")
+       })
+       this.setState({ isReady: true })
+   }
+
   render() {
     return (
+        this.state.isReady?
         <Drawer
     	        ref={(ref) => this._drawer = ref}
     	        type="overlay"
@@ -121,6 +132,9 @@ export class ExampleLists extends React.Component {
     	        }
 	    >
         <Container>
+        {
+             Platform.OS != 'ios'&&<View style={styles.statusBar} />
+        }
             <Header>
                 <Left>
                     <Button transparent onPress={this.openControlPanel}>
@@ -145,6 +159,8 @@ export class ExampleLists extends React.Component {
             </Content>
       </Container>
       </Drawer>
+      :
+      <Container />
     )
   }
 }
@@ -162,6 +178,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
+  statusBar: {
+        backgroundColor: "#000",
+        height: Expo.Constants.statusBarHeight,
+    },
   welcome: {
     fontSize: 20,
     textAlign: 'center',

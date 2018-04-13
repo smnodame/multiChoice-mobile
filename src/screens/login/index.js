@@ -7,11 +7,12 @@ import {
   Dimensions,
   TextInput,
   TouchableOpacity,
-  AsyncStorage
+  AsyncStorage,
+  Platform
 } from 'react-native'
 import { Container, Header, Content, List, ListItem, Text, Thumbnail, Body, Icon, Right, Left, Button, Title } from 'native-base'
 import { NavigationActions } from 'react-navigation'
-
+import Expo from "expo"
 const { width, height } = Dimensions.get("window");
 
 const background = require("./login1_bg.png");
@@ -26,18 +27,9 @@ export class Login extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            isReady: false,
             error: ''
         }
-        // AsyncStorage.removeItem('token')
-        // 		.then(() => {
-        // 			const resetAction = NavigationActions.reset({
-        // 					index: 0,
-        // 					actions: [
-        // 						NavigationActions.navigate({ routeName: 'Login'})
-        // 					]
-        // 				})
-        // 				this.props.navigation.dispatch(resetAction)
-        // 		})
     }
 
     login = () => {
@@ -68,9 +60,22 @@ export class Login extends React.Component {
         })
     }
 
+    async componentWillMount() {
+       await Expo.Font.loadAsync({
+           Roboto: require("native-base/Fonts/Roboto.ttf"),
+           Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
+           Ionicons: require("@expo/vector-icons/fonts/Ionicons.ttf")
+       })
+       this.setState({ isReady: true })
+   }
+
     render() {
     return (
+        this.state.isReady?
       <View style={styles.container}>
+      {
+          Platform.OS != 'ios'&&<View style={styles.statusBar} />
+      }
         <ImageBackground source={background} style={styles.background} resizeMode="cover">
           <View style={styles.markWrap}>
             <Image source={mark} style={styles.mark} resizeMode="contain" />
@@ -117,6 +122,8 @@ export class Login extends React.Component {
           </View>
         </ImageBackground>
       </View>
+      :
+      <Container />
     );
   }
 }
@@ -125,6 +132,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  statusBar: {
+        backgroundColor: "#000",
+        height: Expo.Constants.statusBarHeight,
+    },
   markWrap: {
     flex: 1,
     paddingVertical: 30,

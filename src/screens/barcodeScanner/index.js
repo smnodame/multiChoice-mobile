@@ -1,18 +1,26 @@
 import React from 'react'
-import { StyleSheet, View, Alert } from 'react-native'
+import { StyleSheet, View, Alert, Platform } from 'react-native'
 import { BarCodeScanner, Permissions,  } from 'expo'
 import { Container, Header, Content, List, ListItem, Text, Thumbnail, Body, Icon, Right, Left, Button, Title } from 'native-base'
 import { NavigationActions } from 'react-navigation'
+import Expo from "expo"
 
 export class BarcodeScanner extends React.Component {
-  state = {
-    hasCameraPermission: null,
-    round: 0
-  }
+    state = {
+        hasCameraPermission: null,
+        round: 0
+    }
 
-  async componentWillMount() {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA)
-    this.setState({hasCameraPermission: status === 'granted'})
+    async componentWillMount() {
+        await Expo.Font.loadAsync({
+            Roboto: require("native-base/Fonts/Roboto.ttf"),
+            Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
+            Ionicons: require("@expo/vector-icons/fonts/Ionicons.ttf")
+        })
+        this.setState({ isReady: true })
+
+        const { status } = await Permissions.askAsync(Permissions.CAMERA)
+        this.setState({hasCameraPermission: status === 'granted'})
     }
 
     onBack = () => {
@@ -28,7 +36,11 @@ export class BarcodeScanner extends React.Component {
       return <Text>No access to camera</Text>
     } else {
       return (
-        <Container>
+          this.state.isReady?
+          <Container>
+              {
+                   Platform.OS != 'ios'&&<View style={styles.statusBar} />
+              }
             <Header>
                 <Left>
                     <Button transparent onPress={this.onBack}>
@@ -47,6 +59,8 @@ export class BarcodeScanner extends React.Component {
                 />
             </View>
         </Container>
+        :
+         <Container />
       )
     }
   }
@@ -90,3 +104,10 @@ export class BarcodeScanner extends React.Component {
     })
   }
 }
+
+const styles = StyleSheet.create({
+    statusBar: {
+          backgroundColor: "#000",
+          height: Expo.Constants.statusBarHeight,
+      }
+})

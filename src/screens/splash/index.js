@@ -7,7 +7,8 @@ import {
   Dimensions,
   TextInput,
   TouchableOpacity,
-  AsyncStorage
+  AsyncStorage,
+  Platform
 } from 'react-native'
 import { Container, Header, Content, List, ListItem, Text, Thumbnail, Body, Icon, Right, Left, Button, Title } from 'native-base'
 import { NavigationActions } from 'react-navigation'
@@ -18,12 +19,15 @@ const background = require("../login/login1_bg.png");
 const mark = require("../login/login1_mark.png");
 const lockIcon = require("../login/login1_lock.png");
 const personIcon = require("../login/login1_person.png");
-
+import Expo from "expo"
 
 export class Splash extends React.Component {
 
     constructor(props) {
         super(props)
+        this.state = {
+            isReady: false
+        }
     }
 
     async componentDidMount() {
@@ -51,17 +55,30 @@ export class Splash extends React.Component {
 		}
     }
 
-
+    async componentWillMount() {
+        await Expo.Font.loadAsync({
+            Roboto: require("native-base/Fonts/Roboto.ttf"),
+            Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
+            Ionicons: require("@expo/vector-icons/fonts/Ionicons.ttf")
+        })
+        this.setState({ isReady: true })
+    }
 
     render() {
     return (
-      <View style={styles.container}>
-        <ImageBackground source={background} style={styles.background} resizeMode="cover">
-          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', }}>
-            <Image source={mark} style={styles.mark} resizeMode="contain" />
-          </View>
-        </ImageBackground>
-      </View>
+        this.state.isReady?
+            <View style={styles.container}>
+                {
+                    Platform.OS != 'ios'&&<View style={styles.statusBar} />
+                }
+                <ImageBackground source={background} style={styles.background} resizeMode="cover">
+                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', }}>
+                        <Image source={mark} style={styles.mark} resizeMode="contain" />
+                    </View>
+                </ImageBackground>
+            </View>
+            :
+            <Container />
     );
   }
 }
@@ -70,6 +87,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  statusBar: {
+        backgroundColor: "#000",
+        height: Expo.Constants.statusBarHeight,
+    },
   markWrap: {
     flex: 1,
     paddingVertical: 30,
