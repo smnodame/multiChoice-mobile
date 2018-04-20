@@ -6,9 +6,12 @@ import { NavigationActions } from 'react-navigation'
 import Expo from "expo"
 
 export class BarcodeScanner extends React.Component {
+    round = 0
+
     state = {
         hasCameraPermission: null,
-        round: 0
+        round: 0,
+        showBarcodeScanner: true
     }
 
     async componentWillMount() {
@@ -53,10 +56,12 @@ export class BarcodeScanner extends React.Component {
                     <Right />
             </Header>
             <View style={{ flex: 1 }}>
-                <BarCodeScanner
-                    onBarCodeRead={this._handleBarCodeRead}
-                    style={StyleSheet.absoluteFill}
-                />
+                {
+                    this.state.showBarcodeScanner && <BarCodeScanner
+                        onBarCodeRead={this._handleBarCodeRead}
+                        style={StyleSheet.absoluteFill}
+                    />
+                }
             </View>
         </Container>
         :
@@ -66,9 +71,7 @@ export class BarcodeScanner extends React.Component {
   }
 
   _handleBarCodeRead = ({ type, data }) => {
-    if(this.state.round == 0) {
-        console.log(type)
-        console.log(data)
+    if(this.round == 0) {
         const student = JSON.parse(data)
 
         Alert.alert(
@@ -79,29 +82,32 @@ export class BarcodeScanner extends React.Component {
                     this.props.navigation.dispatch(NavigationActions.back())
                 }},
                 {text: 'ลองใหม่', onPress: () => {
-                    this.setState({
-                        round: 0
-                    })
+                    this.round = 0
                 }},
                 {text: 'ตกลง', onPress: () => {
-                    this.props.navigation.navigate('CameraScanner', {
-                        user_slug: student.slug,
-                        example_slug: this.props.navigation.state.params.example_slug,
-                        reloadResultLists: this.props.navigation.state.params.reloadResultLists,
-                        resetRound: () => {
-                            this.setState({
-                                round: 0
-                            })
-                        }
+                    this.setState({
+                        showBarcodeScanner: false
+                    }, () => {
+                        this.props.navigation.navigate('CameraScanner', {
+                            user_slug: student.slug,
+                            example_slug: this.props.navigation.state.params.example_slug,
+                            reloadResultLists: this.props.navigation.state.params.reloadResultLists,
+                            resetRound: () => {
+                                this.round = 0
+
+                                this.setState({
+                                    showBarcodeScanner: true
+                                })
+                            }
+                        })
                     })
+
                 }},
             ],
             { cancelable: false }
         )
     }
-    this.setState({
-        round: 1
-    })
+    this.round = 1
   }
 }
 

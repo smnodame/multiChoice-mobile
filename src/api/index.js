@@ -40,5 +40,7 @@ export const sendPhoto = (user_slug, example_slug, file) => {
                 }
             }
             return res.json()
+        }, (err) => {
+            return err.json()
         })
 }
