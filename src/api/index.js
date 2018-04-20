@@ -41,6 +41,9 @@ export const sendPhoto = (user_slug, example_slug, file) => {
             }
             return res.json()
         }, (err) => {
-            return err.json()
+            return {
+                error: 'ระบบผิดพลาด ลองใหม่อีกครั้ง',
+                status: 500
+            }
         })
 }
