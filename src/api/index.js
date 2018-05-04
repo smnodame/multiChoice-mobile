@@ -21,17 +21,42 @@ export const getPoint = (slug) => {
 }
 
 export const sendPhoto = (user_slug, example_slug, file) => {
+    if(file.platform == 'android') {
+        return axios.post('http://192.168.1.39:8000/quickstart/upload-photo', {
+            user_slug: user_slug,
+            example_slug: example_slug,
+            platform: file.platform,
+            base64: file.base64
+        }).then(res => {
+            if(res.status != 200) {
+                return {
+                    error: 'ระบบผิดพลาด ลองใหม่อีกครั้ง',
+                    status: 500
+                }
+            }
+            return res.json()
+        }, (err) => {
+            return {
+                error: 'ระบบผิดพลาด ลองใหม่อีกครั้ง',
+                status: 500
+            }
+        })
+    }
     const bodyFormData = new FormData()
     bodyFormData.append('user_slug', user_slug)
     bodyFormData.append('example_slug', example_slug)
     bodyFormData.append('file', {
         uri: file.uri,
         name: user_slug + '_' + example_slug,
-        type: 'jpeg'
+        type: 'image/jpeg'
     })
     return fetch('http://192.168.1.39:8000/quickstart/upload-photo', {
         method: 'post',
-        body: bodyFormData
+        body: bodyFormData,
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'multipart/form-data'
+        },
         }).then(res => {
             if(res.status != 200) {
                 return {

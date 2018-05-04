@@ -1,5 +1,14 @@
 {
   "expo": {
-    "sdkVersion": "25.0.0"
+   "name": "example",
+   "version": "1.0.0",
+   "slug": "smnodame-example",
+   "sdkVersion": "25.0.0",
+   "ios": {
+     "bundleIdentifier": "com.smnodame.example"
+   },
+   "android": {
+     "package": "com.smnodame.example"
+   }
   }
 }

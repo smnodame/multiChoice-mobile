@@ -30,9 +30,12 @@ export class CameraScanner extends React.Component {
 
   snap = async () => {
       if (this.camera) {
-            let photo = await this.camera.takePictureAsync()
+            let photo = await this.camera.takePictureAsync({ base64: true })
+
             const resSendPhoto = await sendPhoto(this.props.navigation.state.params.user_slug, this.props.navigation.state.params.example_slug, {
-                uri: photo.uri
+                uri: photo.uri,
+                base64: photo.base64,
+                platform: Platform.OS === 'ios' ? 'ios' : 'android'
             })
             console.log(resSendPhoto)
             if(_.get(resSendPhoto, 'status', false)) {
