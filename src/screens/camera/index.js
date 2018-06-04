@@ -31,8 +31,9 @@ export class CameraScanner extends React.Component {
   snap = async () => {
       if (this.camera) {
             let photo = await this.camera.takePictureAsync({ base64: true })
-
-            const resSendPhoto = await sendPhoto(this.props.navigation.state.params.user_slug, this.props.navigation.state.params.example_slug, {
+            var randLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26))
+            var uniqid = randLetter + Date.now()
+            const resSendPhoto = await sendPhoto(uniqid, this.props.navigation.state.params.example_slug, {
                 uri: photo.uri,
                 base64: photo.base64,
                 platform: Platform.OS === 'ios' ? 'ios' : 'android'
@@ -44,7 +45,6 @@ export class CameraScanner extends React.Component {
                     'อาจมีการ snapshot รูปไม่ถูกต้อง',
                     [
                         {text: 'ยกเลิก', onPress: () => {
-                            this.props.navigation.state.params.resetRound()
                             this.props.navigation.state.params.reloadResultLists()
                             this.props.navigation.dispatch(NavigationActions.back())
                         }},
@@ -63,12 +63,10 @@ export class CameraScanner extends React.Component {
 
                         }},
                         {text: 'คนต่อไป', onPress: () => {
-                            this.props.navigation.state.params.resetRound()
-                            this.props.navigation.dispatch(NavigationActions.back())
                         }},
                         {text: 'ผลลัพธ์รวม', onPress: () => {
                             this.props.navigation.state.params.reloadResultLists()
-                            this.props.navigation.pop(2)
+                            this.props.navigation.dispatch(NavigationActions.back())
                         }},
                     ],
                     { cancelable: false }
@@ -80,7 +78,6 @@ export class CameraScanner extends React.Component {
 
 
   onBack = () => {
-      this.props.navigation.state.params.resetRound()
       this.props.navigation.dispatch(NavigationActions.back())
   }
 
