@@ -20,10 +20,10 @@ export const getPoint = (slug) => {
     return axios.get(`http://192.168.1.39:8000/point?slug=${slug}`)
 }
 
-export const sendPhoto = (user_slug, example_slug, file) => {
+export const sendPhoto = (uniq_slug, example_slug, file) => {
     if(file.platform == 'android') {
         return axios.post('http://192.168.1.39:8000/quickstart/upload-photo', {
-            user_slug: user_slug,
+            uniq_slug: uniq_slug,
             example_slug: example_slug,
             platform: file.platform,
             base64: file.base64
@@ -43,11 +43,11 @@ export const sendPhoto = (user_slug, example_slug, file) => {
         })
     }
     const bodyFormData = new FormData()
-    bodyFormData.append('user_slug', user_slug)
+    bodyFormData.append('uniq_slug', uniq_slug)
     bodyFormData.append('example_slug', example_slug)
     bodyFormData.append('file', {
         uri: file.uri,
-        name: user_slug + '_' + example_slug,
+        name: uniq_slug + '_' + example_slug,
         type: 'image/jpeg'
     })
     return fetch('http://192.168.1.39:8000/quickstart/upload-photo', {
