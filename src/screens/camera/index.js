@@ -56,6 +56,8 @@ export class CameraScanner extends React.Component {
                 )
             } else {
                 Alert.alert(
+                    resSendPhoto.slug,
+                    resSendPhoto.name,
                     'ผลลัพธ์',
                     `${resSendPhoto.point} คะแนน`,
                     [
